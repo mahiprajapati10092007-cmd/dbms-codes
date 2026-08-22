@@ -1,0 +1,31 @@
+P1.2  Variables and Data Types   [Easy]  [NUMBER, VARCHAR2, DATE, BOOLEAN, arithmetic]
+Problem Statement:  Declare variables: v_name VARCHAR2(50), v_marks NUMBER(5,2), 
+v_percentage NUMBER(5,2), v_dob DATE, v_passed BOOLEAN. Use your own name and last 
+semester marks. Calculate percentage = (marks/500)*100. Print: name, marks, percentage 
+(ROUND to 2 decimals), today's date using SYSDATE. Print "PASS" or "FAIL" based on v_passed.
+SET SERVEROUTPUT ON;
+
+
+-->answer
+
+DECLARE
+    v_name VARCHAR2(50) := 'Mahi Prajapati';
+    v_marks NUMBER(5,2) := 420;
+    v_percentage NUMBER(5,2);
+    v_dob DATE := DATE '2006-06-15';
+    v_passed BOOLEAN := TRUE;
+BEGIN
+    v_percentage := ROUND((v_marks / 500) * 100, 2);
+
+    DBMS_OUTPUT.PUT_LINE('Name: ' || v_name);
+    DBMS_OUTPUT.PUT_LINE('Marks: ' || v_marks);
+    DBMS_OUTPUT.PUT_LINE('Percentage: ' || v_percentage || '%');
+    DBMS_OUTPUT.PUT_LINE('Today: ' || TO_CHAR(SYSDATE, 'DD-MON-YYYY'));
+
+    IF v_passed THEN
+        DBMS_OUTPUT.PUT_LINE('Result: PASS');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Result: FAIL');
+    END IF;
+END;
+/

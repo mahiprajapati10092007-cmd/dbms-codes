@@ -1,0 +1,45 @@
+P1.15  Department Statistics with SELECT INTO   [Medium]  [SELECT INTO with aggregates, 
+COUNT, AVG, MAX, group functions] Problem Statement:  A single SELECT INTO can fetch 
+aggregate results too. For a given department_id, fetch in ONE query: COUNT(*), ROUND(AVG(salary),
+2) and MAX(salary) of employees into three variables. Print a department summary. Then 
+answer in a comment: why does SELECT INTO with COUNT(*) never raise NO_DATA_FOUND even for 
+a department with no employees?
+DECLARE
+    v_roll NUMBER := 34;
+    v_dept NUMBER;
+
+    v_cnt NUMBER;
+    v_avg NUMBER;
+    v_max NUMBER;
+BEGIN
+    v_dept :=
+        (MOD(v_roll, 6) + 1) * 10;
+
+    SELECT
+        COUNT(*),
+        ROUND(AVG(salary), 2),
+        MAX(salary)
+    INTO
+        v_cnt,
+        v_avg,
+        v_max
+    FROM employees
+    WHERE department_id = v_dept;
+
+    DBMS_OUTPUT.PUT_LINE(
+        'Department ID: ' || v_dept
+    );
+    DBMS_OUTPUT.PUT_LINE(
+        'Employee Count: ' || v_cnt
+    );
+    DBMS_OUTPUT.PUT_LINE(
+        'Average Salary: Rs.' || v_avg
+    );
+    DBMS_OUTPUT.PUT_LINE(
+        'Maximum Salary: Rs.' || v_max
+    );
+
+    -- COUNT(*) always returns one row,
+    -- even when no employees are found.
+END;
+/

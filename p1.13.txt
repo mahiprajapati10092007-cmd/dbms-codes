@@ -1,0 +1,47 @@
+P1.13  ATM Note Splitter   [Easy]  [MOD, TRUNC, integer arithmetic] Problem Statement:
+An ATM must dispense a withdrawal amount using minimum notes of Rs.500, 200, 100.
+Declare v_amount NUMBER. Using TRUNC division and MOD, calculate how many notes of each
+denomination are needed and the remaining amount that cannot be dispensed (less than 100).
+Print a note-wise breakup. Example logic: n500 = TRUNC(amount/500); rem = MOD(amount,500);
+and so on.
+
+
+
+
+
+DECLARE
+    v_roll NUMBER := 34;
+    v_amount NUMBER;
+    v_n500 NUMBER;
+    v_n200 NUMBER;
+    v_n100 NUMBER;
+    v_rem NUMBER;
+BEGIN
+    v_amount := v_roll * 137 + 1000;
+
+    v_n500 := TRUNC(v_amount / 500);
+    v_rem := MOD(v_amount, 500);
+
+    v_n200 := TRUNC(v_rem / 200);
+    v_rem := MOD(v_rem, 200);
+
+    v_n100 := TRUNC(v_rem / 100);
+    v_rem := MOD(v_rem, 100);
+
+    DBMS_OUTPUT.PUT_LINE(
+        'Withdrawal Amount: Rs.' || v_amount
+    );
+    DBMS_OUTPUT.PUT_LINE(
+        '500 Notes: ' || v_n500
+    );
+    DBMS_OUTPUT.PUT_LINE(
+        '200 Notes: ' || v_n200
+    );
+    DBMS_OUTPUT.PUT_LINE(
+        '100 Notes: ' || v_n100
+    );
+    DBMS_OUTPUT.PUT_LINE(
+        'Remaining: Rs.' || v_rem
+    );
+END;
+/
