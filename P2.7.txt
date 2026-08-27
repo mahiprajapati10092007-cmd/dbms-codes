@@ -1,0 +1,69 @@
+P2.7  Student Result + Attendance System   [Hard]  [ELSIF ladder, CASE, multiple conditions, DETAINED logic] Problem Statement:  Build LJICA semester result: Variables: attendance_pct, theory_marks(out of 70), practical_marks(out of 30), assignment_marks(out of 20, max 10 counted). Rules: (1) attendance<40% => DETAINED, (2) theory<28 (40% of 70) => FAIL in Theory, (3) practical<12 (40% of 30) => FAIL in Practical, (4) else: total = theory + practical + MIN(assignment,10). Print each component, total, percentage, grade using CASE, result message, and one-line remark (like actual marksheet). 
+
+
+//answer
+
+
+SET SERVEROUTPUT ON;
+
+DECLARE
+    v_roll_no NUMBER := 34;
+    v_name VARCHAR2(50) := 'Mahi Prajapati';
+
+    v_attendance NUMBER := 85;
+    v_theory NUMBER := 55;
+    v_practical NUMBER := 25;
+    v_assignment NUMBER := 15;
+
+    v_assignment_counted NUMBER;
+    v_total NUMBER;
+    v_percentage NUMBER;
+    v_grade VARCHAR2(5);
+    v_result VARCHAR2(30);
+    v_remark VARCHAR2(50);
+BEGIN
+    v_assignment_counted := LEAST(v_assignment, 10);
+
+    IF v_attendance < 40 THEN
+        v_result := 'DETAINED';
+
+    ELSIF v_theory < 28 THEN
+        v_result := 'FAIL IN THEORY';
+
+    ELSIF v_practical < 12 THEN
+        v_result := 'FAIL IN PRACTICAL';
+
+    ELSE
+        v_total := v_theory + v_practical + v_assignment_counted;
+        v_percentage := v_total;
+
+        CASE
+            WHEN v_percentage >= 90 THEN v_grade := 'A+';
+            WHEN v_percentage >= 80 THEN v_grade := 'A';
+            WHEN v_percentage >= 70 THEN v_grade := 'B';
+            WHEN v_percentage >= 60 THEN v_grade := 'C';
+            WHEN v_percentage >= 50 THEN v_grade := 'D';
+            ELSE v_grade := 'E';
+        END CASE;
+
+        IF v_percentage >= 70 THEN
+            v_remark := 'DISTINCTION';
+        ELSE
+            v_remark := 'PASS';
+        END IF;
+
+        v_result := 'PASS';
+    END IF;
+
+    DBMS_OUTPUT.PUT_LINE('Name: ' || v_name);
+    DBMS_OUTPUT.PUT_LINE('Roll No: ' || v_roll_no);
+    DBMS_OUTPUT.PUT_LINE('Attendance: ' || v_attendance || '%');
+    DBMS_OUTPUT.PUT_LINE('Theory: ' || v_theory || '/70');
+    DBMS_OUTPUT.PUT_LINE('Practical: ' || v_practical || '/30');
+    DBMS_OUTPUT.PUT_LINE('Assignment Counted: ' || v_assignment_counted || '/10');
+    DBMS_OUTPUT.PUT_LINE('Total: ' || v_total || '/110');
+    DBMS_OUTPUT.PUT_LINE('Grade: ' || v_grade);
+    DBMS_OUTPUT.PUT_LINE('Result: ' || v_result);
+    DBMS_OUTPUT.PUT_LINE('Remark: ' || v_remark);
+END;
+/

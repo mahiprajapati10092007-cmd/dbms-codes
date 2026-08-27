@@ -1,0 +1,3 @@
+Error: PLS-00306: wrong number or types of arguments.
+
+It occurs at execution time when opening the cursor. A DEFAULT value allows the cursor to be opened without supplying that argument.

@@ -1,0 +1,5 @@
+| Type                 | Declared by | Opens/Closes | Reusable    | Best use                         |
+| -------------------- | ----------- | ------------ | ----------- | -------------------------------- |
+| Implicit Cursor      | Oracle      | Oracle       | No          | Single SQL statement             |
+| Explicit Cursor      | Programmer  | Programmer   | Fixed query | Multiple rows                    |
+| Parameterised Cursor | Programmer  | Programmer   | Yes         | Same query with different values |

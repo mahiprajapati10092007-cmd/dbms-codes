@@ -1,0 +1,31 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+    CURSOR c_book IS
+        SELECT title, price, stock FROM book;
+
+    v_title book.title%TYPE;
+    v_price book.price%TYPE;
+    v_stock book.stock%TYPE;
+    v_value NUMBER(12,2);
+    v_total NUMBER(14,2) := 0;
+BEGIN
+    OPEN c_book;
+
+    LOOP
+        FETCH c_book INTO v_title, v_price, v_stock;
+        EXIT WHEN c_book%NOTFOUND;
+
+        v_value := v_price * v_stock;
+        v_total := v_total + v_value;
+
+        DBMS_OUTPUT.PUT_LINE(
+            v_title || ' = Rs. ' || v_value
+        );
+    END LOOP;
+
+    CLOSE c_book;
+
+    DBMS_OUTPUT.PUT_LINE('Grand Total = Rs. ' || v_total);
+END;
+/

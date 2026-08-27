@@ -1,0 +1,20 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+    CURSOR c_pub IS
+        SELECT pub_id, pub_name FROM publisher;
+
+    CURSOR c_book(p_pub_id NUMBER) IS
+        SELECT title
+        FROM book
+        WHERE pub_id = p_pub_id;
+BEGIN
+    FOR p IN c_pub LOOP
+        DBMS_OUTPUT.PUT_LINE(p.pub_name);
+
+        FOR b IN c_book(p.pub_id) LOOP
+            DBMS_OUTPUT.PUT_LINE('   ' || b.title);
+        END LOOP;
+    END LOOP;
+END;
+/

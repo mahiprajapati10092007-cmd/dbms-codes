@@ -1,0 +1,10 @@
+Books with price greater than 600 are:
+
+1 : Database System Concepts
+2 : Operating System Design
+3 : Java Complete Reference
+4 : Computer Networks
+5 : Oracle SQL Handbook
+6 : Advanced DBMS
+7 : Cloud Computing Essentials
+Final ROWCOUNT = 8

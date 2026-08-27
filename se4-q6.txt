@@ -1,0 +1,5 @@
+Cursor attributes
+%FOUND — raises ORA-01001 if cursor is not open.
+%NOTFOUND — raises ORA-01001 if cursor is not open.
+%ROWCOUNT — raises ORA-01001 if cursor is not open.
+%ISOPEN — does not raise an error; it returns FALSE.

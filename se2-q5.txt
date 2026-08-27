@@ -1,0 +1,27 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+    CURSOR c_member IS
+        SELECT member_name, course, semester
+        FROM lib_member;
+
+    v_name lib_member.member_name%TYPE;
+    v_course lib_member.course%TYPE;
+    v_sem lib_member.semester%TYPE;
+BEGIN
+    OPEN c_member;
+
+    LOOP
+        FETCH c_member INTO v_name, v_course, v_sem;
+        EXIT WHEN c_member%NOTFOUND;
+
+        DBMS_OUTPUT.PUT_LINE(
+            c_member%ROWCOUNT || '. ' ||
+            UPPER(v_name) || ' (' ||
+            v_course || ' - Sem ' || v_sem || ')'
+        );
+    END LOOP;
+
+    CLOSE c_member;
+END;
+/

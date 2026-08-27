@@ -1,0 +1,55 @@
+P2.2  Indian Income Tax Calculator 2024-25   [Easy]  [Searched CASE statement, financial calculations] Problem Statement:  New Tax Regime 2024-25: Deduct standard Rs.75,000 first. Then: 0-3L=NIL, 37L=5%, 7-10L=10%, 10-12L=15%, 12-15L=20%, >15L=30%. Calculate: gross salary, taxable income (after std deduction), total tax, monthly TDS (tax/12), take-home monthly salary. Print full breakdown. If tax=0: print "No tax this year — save more with PPF/ELSS!". Use SEARCHED CASE (not IF-ELSIF) for tax slabs. 
+
+
+//answer
+SET SERVEROUTPUT ON;
+
+DECLARE
+    v_roll_no NUMBER := 34;
+    v_gross_salary NUMBER := 1000000;
+    v_taxable_income NUMBER;
+    v_tax NUMBER := 0;
+    v_tds NUMBER;
+    v_take_home NUMBER;
+BEGIN
+    v_taxable_income := v_gross_salary - 75000;
+
+    CASE
+        WHEN v_taxable_income <= 300000 THEN
+            v_tax := 0;
+
+        WHEN v_taxable_income <= 700000 THEN
+            v_tax := (v_taxable_income - 300000) * 0.05;
+
+        WHEN v_taxable_income <= 1000000 THEN
+            v_tax := 20000 +
+                     (v_taxable_income - 700000) * 0.10;
+
+        WHEN v_taxable_income <= 1200000 THEN
+            v_tax := 20000 + 30000 +
+                     (v_taxable_income - 1000000) * 0.15;
+
+        WHEN v_taxable_income <= 1500000 THEN
+            v_tax := 20000 + 30000 + 30000 +
+                     (v_taxable_income - 1200000) * 0.20;
+
+        ELSE
+            v_tax := 20000 + 30000 + 30000 + 60000 +
+                     (v_taxable_income - 1500000) * 0.30;
+    END CASE;
+
+    v_tds := v_tax / 12;
+    v_take_home := (v_gross_salary - v_tax) / 12;
+
+    DBMS_OUTPUT.PUT_LINE('Roll No: ' || v_roll_no);
+    DBMS_OUTPUT.PUT_LINE('Gross Salary: Rs.' || v_gross_salary);
+    DBMS_OUTPUT.PUT_LINE('Taxable Income: Rs.' || v_taxable_income);
+    DBMS_OUTPUT.PUT_LINE('Total Tax: Rs.' || v_tax);
+    DBMS_OUTPUT.PUT_LINE('Monthly TDS: Rs.' || ROUND(v_tds));
+    DBMS_OUTPUT.PUT_LINE('Take Home Monthly Salary: Rs.' || ROUND(v_take_home));
+
+    IF v_tax = 0 THEN
+        DBMS_OUTPUT.PUT_LINE('No tax this year - save more with PPF/ELSS!');
+    END IF;
+END;
+/
