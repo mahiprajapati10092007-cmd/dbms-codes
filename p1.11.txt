@@ -1,0 +1,55 @@
+P1.11  Date Function Playground   [Easy]  [SYSDATE, ADD_MONTHS, LAST_DAY, NEXT_DAY, TO_CHAR date
+formats] Problem Statement:  Write a block that prints: (1) Today in format "Day, DDth Month 
+YYYY" using TO_CHAR(SYSDATE,'Day, DD "th" Month YYYY'), (2) Date after N months using
+ADD_MONTHS(SYSDATE, N), (3) Last day of the current month using LAST_DAY, (4) Date of next
+Monday using NEXT_DAY(SYSDATE,'MONDAY'), (5) Number of days left in this month = LAST_DAY(SYSDATE)
+- SYSDATE (TRUNC it). Label every output line clearly.
+
+
+
+
+
+DECLARE
+    v_roll NUMBER := 34;
+    v_n NUMBER;
+BEGIN
+    v_n := MOD(v_roll, 12) + 1;
+
+    DBMS_OUTPUT.PUT_LINE(
+        'Today: ' ||
+        TO_CHAR(
+            SYSDATE,
+            'Day, DD "th" Month YYYY'
+        )
+    );
+
+    DBMS_OUTPUT.PUT_LINE(
+        'Date after ' || v_n || ' months: ' ||
+        TO_CHAR(
+            ADD_MONTHS(SYSDATE, v_n),
+            'DD-MON-YYYY'
+        )
+    );
+
+    DBMS_OUTPUT.PUT_LINE(
+        'Last Day: ' ||
+        TO_CHAR(
+            LAST_DAY(SYSDATE),
+            'DD-MON-YYYY'
+        )
+    );
+
+    DBMS_OUTPUT.PUT_LINE(
+        'Next Monday: ' ||
+        TO_CHAR(
+            NEXT_DAY(SYSDATE, 'MONDAY'),
+            'DD-MON-YYYY'
+        )
+    );
+
+    DBMS_OUTPUT.PUT_LINE(
+        'Days Left: ' ||
+        TRUNC(LAST_DAY(SYSDATE) - SYSDATE)
+    );
+END;
+/

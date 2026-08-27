@@ -1,0 +1,47 @@
+p1.7 Create 3 levels of nested blocks. Outer: v_city="Gujarat", v_num=100. Middle: v_city="Ahmedabad"
+(shadows outer), v_num=200. Inner: v_num=300. Inside each level: print v_city and v_num.
+After middle block ends, prove outer v_city is still "Gujarat". Use block labels (<<outer>>,
+<<middle>>) and demonstrate accessing outer variable from inner using outer.v_city.
+This shows exactly how Oracle handles variable scope.
+
+
+<<outer>>
+DECLARE
+    v_city VARCHAR2(30) := 'Gujarat';
+    v_num NUMBER := 100;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(
+        'Outer: ' || v_city || ' | ' || v_num
+    );
+
+    <<middle>>
+    DECLARE
+        v_city VARCHAR2(30) := 'Ahmedabad';
+        v_num NUMBER := 200;
+    BEGIN
+        DBMS_OUTPUT.PUT_LINE(
+            'Middle: ' || v_city || ' | ' || v_num
+        );
+
+        DECLARE
+            v_num NUMBER := 300;
+        BEGIN
+            DBMS_OUTPUT.PUT_LINE(
+                'Inner City: ' || middle.v_city
+            );
+            DBMS_OUTPUT.PUT_LINE(
+                'Inner Number: ' || v_num
+            );
+            DBMS_OUTPUT.PUT_LINE(
+                'Outer City from Inner: ' ||
+                outer.v_city
+            );
+        END;
+    END;
+
+    DBMS_OUTPUT.PUT_LINE(
+        'After Middle: ' ||
+        v_city || ' | ' || v_num
+    );
+END;
+/

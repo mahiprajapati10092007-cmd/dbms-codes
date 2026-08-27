@@ -1,0 +1,46 @@
+P1.5  %ROWTYPE — Employee Profile Card   [Medium]  [%ROWTYPE, TO_CHAR, 
+MONTHS_BETWEEN]
+Problem Statement:  Declare v_emp employees%ROWTYPE. Fetch the full row for your 
+employee (emp_id = 100 + roll_no MOD 9 + 1). Print a formatted profile card: Name, Job ID, 
+Department ID, Salary formatted as "Rs.XX,XXX" using TO_CHAR, Hire Date as DD-MON-YYYY, 
+Years of Experience = TRUNC(MONTHS_BETWEEN(SYSDATE, v_emp.hire_date)/12). Add: if 
+experience > 10 years print "Senior Employee".
+
+
+SET SERVEROUTPUT ON;
+
+DECLARE
+    v_id NUMBER := 108;
+    v_emp employees%ROWTYPE;
+    v_yrs NUMBER;
+BEGIN
+    SELECT *
+    INTO v_emp
+    FROM employees
+    WHERE employee_id = v_id;
+
+    v_yrs := TRUNC(
+        MONTHS_BETWEEN(SYSDATE, v_emp.hire_date) / 12
+    );
+
+    DBMS_OUTPUT.PUT_LINE('----- EMPLOYEE PROFILE -----');
+    DBMS_OUTPUT.PUT_LINE(
+        'Name: ' || v_emp.first_name || ' ' || v_emp.last_name
+    );
+    DBMS_OUTPUT.PUT_LINE('Job ID: ' || v_emp.job_id);
+    DBMS_OUTPUT.PUT_LINE('Department ID: ' || v_emp.department_id);
+    DBMS_OUTPUT.PUT_LINE(
+        'Salary: ' || TO_CHAR(v_emp.salary, 'Rs.99,999')
+    );
+    DBMS_OUTPUT.PUT_LINE(
+        'Hire Date: ' ||
+        TO_CHAR(v_emp.hire_date, 'DD-MON-YYYY')
+    );
+    DBMS_OUTPUT.PUT_LINE('Experience: ' || v_yrs || ' Years');
+
+    IF v_yrs > 10 THEN
+    DBMS_OUTPUT.PUT_LINE('Senior Employee');
+    END IF;
+END;
+/
+

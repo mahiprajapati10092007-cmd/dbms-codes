@@ -1,0 +1,31 @@
+P1.4  SELECT INTO — Employee Data Fetcher   [Easy]  [SELECT INTO, %TYPE, 
+NO_DATA_FOUND]
+Problem Statement:  Declare v_fname using employees.first_name%TYPE and v_sal using 
+employees.salary%TYPE. Fetch first_name and salary of a specific employee using SELECT 
+INTO. Print: "Employee: [name] earns Rs.[salary] per month." Add EXCEPTION WHEN 
+NO_DATA_FOUND THEN print "Employee not found — check the ID." Test both: a valid ID and a 
+non-existent ID.
+
+
+SET SERVEROUTPUT ON;
+
+DECLARE
+    v_id NUMBER := 106;
+    v_fname employees.first_name%TYPE;
+    v_sal employees.salary%TYPE;
+BEGIN
+    SELECT first_name, salary
+    INTO v_fname, v_sal
+    FROM employees
+    WHERE employee_id = v_id;
+
+    DBMS_OUTPUT.PUT_LINE(
+        'Employee: ' || v_fname ||
+        ' earns Rs.' || v_sal || ' per month.'
+    );
+
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('Employee not found - check the ID.');
+END;
+/
