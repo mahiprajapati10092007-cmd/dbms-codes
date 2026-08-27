@@ -1,0 +1,37 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+    CURSOR c_book(p_cat VARCHAR2) IS
+        SELECT title, price
+        FROM book
+        WHERE category = p_cat
+        FOR UPDATE;
+
+    v_title book.title%TYPE;
+    v_old_price book.price%TYPE;
+    v_new_price NUMBER(10,2);
+BEGIN
+    OPEN c_book('&category');
+
+    LOOP
+        FETCH c_book INTO v_title, v_old_price;
+        EXIT WHEN c_book%NOTFOUND;
+
+        v_new_price := v_old_price * 1.10;
+
+        UPDATE book
+        SET price = v_new_price
+        WHERE CURRENT OF c_book;
+
+        DBMS_OUTPUT.PUT_LINE(
+            v_title ||
+            ' - Old: Rs. ' || v_old_price ||
+            ' - New: Rs. ' || v_new_price
+        );
+    END LOOP;
+
+    CLOSE c_book;
+
+    COMMIT;
+END;
+/

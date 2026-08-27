@@ -1,0 +1,20 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+    CURSOR c_issue(p_month NUMBER) IS
+        SELECT issue_id, book_id, issue_date
+        FROM book_issue
+        WHERE EXTRACT(MONTH FROM issue_date) = p_month
+        AND EXTRACT(YEAR FROM issue_date) = 2026;
+
+    v_month NUMBER := &month_number;
+BEGIN
+    FOR r IN c_issue(v_month) LOOP
+        DBMS_OUTPUT.PUT_LINE(
+            'Issue ID: ' || r.issue_id ||
+            ', Book ID: ' || r.book_id ||
+            ', Date: ' || TO_CHAR(r.issue_date, 'DD-MON-YYYY')
+        );
+    END LOOP;
+END;
+/
